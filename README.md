@@ -13,8 +13,8 @@
 ### 1. Клонировать репозиторий
 
 ```bash
-git clone <repo_url>
-cd qa-autotests-2026
+git clone https://github.com/tyurnev/qa-autotests.git
+cd qa-autotests
 ```
 
 ### 2. Создать виртуальное окружение
