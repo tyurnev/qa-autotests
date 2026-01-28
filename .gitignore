@@ -1,3 +1,11 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Personal shell config (should not be in project)
+.zshrc

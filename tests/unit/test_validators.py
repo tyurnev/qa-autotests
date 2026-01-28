@@ -1,3 +1,4 @@
+import pytest
 from app.validators import (
     is_status_ok,
     is_valid_uuid,
@@ -6,21 +7,28 @@ from app.validators import (
     has_keys,
 )
 
-def test_is_status_ok_true_for_2xx():
-    assert is_status_ok(200) is True
-    assert is_status_ok(204) is True
-    assert is_status_ok(299) is True
+@pytest.mark.parametrize("code", [200, 204, 299])
+def test_is_status_ok_true_for_2xx(code: int):
+    assert is_status_ok(code) is True
 
-def test_is_status_ok_false_for_non_2xx():
-    assert is_status_ok(199) is False
-    assert is_status_ok(300) is False
-    assert is_status_ok(404) is False
+@pytest.mark.parametrize("code", [199, 300, 404])
+def test_is_status_ok_false_for_non_2xx(code: int):
+    assert is_status_ok(code) is False
 
-def test_is_valid_uuid_accepts_real_uuid():
-    assert is_valid_uuid("550e8400-e29b-41d4-a716-446655440000") is True
+def test_is_valid_uuid_accepts_real_uuid(valid_uuid: str):
+    assert is_valid_uuid(valid_uuid) is True
 
-def test_is_valid_uuid_rejects_invalid_value():
-    assert is_valid_uuid("not-a-uuid") is False
+@pytest.mark.parametrize("value", ["not-a-uuid", "", "   ", None, 123])
+def test_is_valid_uuid_rejects_invalid_value(value):
+    assert is_valid_uuid(value) is False
+
+@pytest.mark.parametrize("value,expected", [("  hi  ", True), ("   ", False), ("", False), (None, False), (123, False)])
+def test_is_non_empty_string(value, expected: bool):
+    assert is_non_empty_string(value) is expected
+
+def test_is_valid_email_accepts_valid_emails(valid_emails: list[str]):
+    for email in valid_emails:
+        assert is_valid_email(email) is True
 
 def test_validation_helpers():
     assert is_non_empty_string("  hi  ") is True
