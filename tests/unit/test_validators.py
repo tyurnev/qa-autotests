@@ -22,18 +22,33 @@ def test_is_valid_uuid_accepts_real_uuid(valid_uuid: str):
 def test_is_valid_uuid_rejects_invalid_value(value):
     assert is_valid_uuid(value) is False
 
-@pytest.mark.parametrize("value,expected", [("  hi  ", True), ("   ", False), ("", False), (None, False), (123, False)])
+@pytest.mark.parametrize(
+    "value,expected",
+    [("  hi  ", True), ("   ", False), ("", False), (None, False), (123, False)],
+)
 def test_is_non_empty_string(value, expected: bool):
     assert is_non_empty_string(value) is expected
 
-def test_is_valid_email_accepts_valid_emails(valid_emails: list[str]):
-    for email in valid_emails:
-        assert is_valid_email(email) is True
+@pytest.mark.parametrize("email", ["User@Test.com", "a.b+c@test.co.uk", "test@example.com"])
+def test_is_valid_email_accepts_valid_emails(email: str):
+    assert is_valid_email(email) is True
 
-def test_validation_helpers():
-    assert is_non_empty_string("  hi  ") is True
-    assert is_non_empty_string("   ") is False
-    assert is_valid_email("User@Test.com") is True
-    assert is_valid_email("not-an-email") is False
-    assert has_keys({"a": 1, "b": 2}, ["a", "b"]) is True
-    assert has_keys({"a": 1}, ["a", "b"]) is False
+@pytest.mark.parametrize("email", ["not-an-email", "test@", "@test.com", "test @mail.com", "test@mail", "", "   "])
+def test_is_valid_email_rejects_invalid_emails(email: str):
+    assert is_valid_email(email) is False
+
+def test_has_keys_true_when_all_keys_present(sample_user_dict: dict):
+    assert has_keys(sample_user_dict, ["id", "email"]) is True
+
+@pytest.mark.parametrize(
+    "obj,keys,expected",
+    [
+        ({"a": 1, "b": 2}, ["a", "b"], True),
+        ({"a": 1}, ["a", "b"], False),
+        ("not-a-dict", ["a"], False),
+        (None, ["a"], False),
+        ({}, [], True),
+    ],
+)
+def test_has_keys(obj, keys, expected: bool):
+    assert has_keys(obj, keys) is expected
