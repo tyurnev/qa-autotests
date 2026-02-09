@@ -16,3 +16,7 @@ def test_is_palindrome_ignores_spaces_and_punctuation():
 
 def test_mask_token_masks_all_but_last_visible_chars():
     assert mask_token("1234567890", visible=4) == "******7890"
+
+def test_run_id_is_available_in_strings(run_id: str):
+    assert isinstance(run_id, str)
+    assert len(run_id) > 0

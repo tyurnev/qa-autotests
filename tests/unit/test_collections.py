@@ -15,3 +15,6 @@ def test_find_first_returns_first_match():
 
 def test_find_first_returns_none_when_no_match():
     assert find_first([1, 3, 5], lambda x: x % 2 == 0) is None
+
+def test_find_first_finds_first_even_in_unit_numbers(unit_numbers: list[int]):
+    assert find_first(unit_numbers, lambda x: x % 2 == 0) == 2

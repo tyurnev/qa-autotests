@@ -1,4 +1,5 @@
 import pytest
+import uuid
 
 
 @pytest.fixture
@@ -55,3 +56,17 @@ def invalid_emails() -> list[str]:
 @pytest.fixture
 def sample_user_dict() -> dict:
     return {"id": 1, "email": "test@example.com", "name": "John"}
+
+@pytest.fixture(scope="session")
+def run_id() -> str:
+    value = str(uuid.uuid4())
+    print(f"\n[run_id created] {value}")
+    return value
+
+import pytest
+
+@pytest.fixture
+def sample_user_missing_email(sample_user_dict: dict) -> dict:
+    user = sample_user_dict.copy()
+    user.pop("email", None)
+    return user

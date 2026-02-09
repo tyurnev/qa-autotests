@@ -52,3 +52,18 @@ def test_has_keys_true_when_all_keys_present(sample_user_dict: dict):
 )
 def test_has_keys(obj, keys, expected: bool):
     assert has_keys(obj, keys) is expected
+
+def test_run_id_is_available_in_validators(run_id: str):
+    assert isinstance(run_id, str)
+    assert len(run_id) > 0
+
+@pytest.mark.parametrize(
+    "user_fixture_name,expected",
+    [
+        ("sample_user_dict", True),
+        ("sample_user_missing_email", False),
+    ],
+)
+def test_has_keys_with_various_users(request, user_fixture_name: str, expected: bool, required_user_keys: list[str]):
+    user = request.getfixturevalue(user_fixture_name)
+    assert has_keys(user, required_user_keys) is expected
