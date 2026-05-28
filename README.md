@@ -48,17 +48,25 @@ poetry run pytest
 ## Структура проекта
 
 ```text
-src/app/              — исходный код (утилиты и логика)
+src/app/
+  └─ api_client.py        — клиент для API-запросов
+
 tests/
-  ├─ conftest.py      — общие фикстуры проекта
-  ├─ unit/
-  │   ├─ conftest.py  — unit-специфичные фикстуры
-  │   ├─ test_*.py    — unit-тесты
-pytest.ini            — конфигурация pytest
-pyproject.toml        — описание проекта и зависимостей (Poetry)
-poetry.lock           — зафиксированные версии зависимостей
-FIXTURES.md           — описание всех фикстур и их назначения
-```
+  ├─ api/                 — API-тесты
+  │   ├─ conftest.py      — API-фикстуры
+  │   └─ test_*.py        — тесты JSONPlaceholder
+  ├─ helpers/             — вспомогательные функции для тестов
+  │   ├─ api_contracts.py — проверки контрактов ответа
+  │   └─ data_factory.py  — генерация тестовых данных
+  ├─ unit/                — unit-тесты
+  └─ conftest.py          — общие фикстуры проекта
+
+pytest.ini               — конфигурация pytest
+pyproject.toml           — зависимости и настройки Poetry
+poetry.lock              — зафиксированные версии зависимостей
+FIXTURES.md              — описание фикстур
+TEST_DESIGN.md           — тест-дизайн
+TEST_DATA_STRATEGY.md    — стратегия тестовых данных
 
 ## API tests (March)
 
